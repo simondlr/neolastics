@@ -1,0 +1,12 @@
+@font-face {
+  font-family: "SFNewRepublic";
+  src:url("./SFNewRepublic.ttf");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: SFNewRepublic;
+}

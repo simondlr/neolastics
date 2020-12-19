@@ -1,0 +1,22 @@
+.App {
+  text-align: left;
+  max-width: 500px;
+  margin: 0px auto auto;
+}
+
+.section {
+  text-align: left;
+  max-width: 500px;
+  margin: 0px auto auto;
+}
+
+.account {
+  text-align: right;
+  max-width: 500px;
+  margin: 20px auto 4px;
+}
+
+.accountLink {
+  margin-top: 10px;
+  float: left;
+}
