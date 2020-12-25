@@ -73,15 +73,17 @@ export default function Account(props) {
   }    
   
   let displayAddress;
+  let galleryLink;
   if(props.address) {
     displayAddress = <Address value={props.address} ensProvider={props.mainnetProvider}/>;
+    galleryLink = <Link to={"/gallery/"+props.address}> MY GALLERY </Link>;
   }
 
   return (
     <div className="account" style={{fontFamily:"SFNewRepublic"}} >
       <span className="accountLink">
         <Link to="/">HOME</Link> - 
-        <Link to="/gallery"> MY GALLERY</Link>
+        {galleryLink}
       </span> 
       {displayAddress}
       {modalButtons}

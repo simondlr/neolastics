@@ -112,7 +112,7 @@ contract ERC721 is ERC165, IERC721, IERC721Metadata, IERC721Enumerable {
         _registerInterface(_INTERFACE_ID_ERC721_ENUMERABLE);        
         
         // NEOLASTIC specific
-        _setBaseURI("https://neolastics.com/metadata/");
+        _setBaseURI("https://metadata.neolastics.com/.netlify/functions/server/");
         curve = msg.sender;
         
         palette.push("#fac901"); //y: 1/5 chance (0.1992)

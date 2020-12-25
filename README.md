@@ -1,37 +1,40 @@
 
-## This Artwork Is Always On Sale (TAIAOS)
+## Neolastics
 
-![TAIAOS](https://raw.githubusercontent.com/simondlr/thisartworkisalwaysonsale/master/packages/react-app/src/components/TAIAOS4.png)
-
-New Release: June 2020.
-
-- Launched new artwork with 100% patronage rate.
-- Fixed bugs for v2.
-- V1 Artwork is still for sale, but has a warning caution on edge cases that could stop it from functioning properly (front-running attacks can steal deposits + a contract buying it can block from it being sold in perpetuity). More details here: https://github.com/simondlr/thisartworkisalwaysonsale/issues/18 
-
-### About
-
-TAIAOS is an art project that showcases a digital artwork that is always on sale through Harberger Tax property rights. The owner of the artwork always has to set a sale price, upon which it can be bought by anyone at any time. A continuous tax is levied as patronage towards the artist calculated on the owner's price they set. If the deposit does not cover the patronage owed, the smart contract steward can foreclose the artwork and take back ownership.
-
-### Tech
 
 - This repo is forked from https://github.com/austintgriffith/scaffold-eth & extensively modified.
-
-- buidler + waffle + openzeppelin for testing + smart contract development.
+- hardhat + waffle + openzeppelin for testing + smart contract development.
 - ethers.js.
 - OpenZeppelin for deployment (optionally can use this to deploy ugpradeable versions of this project).
-- Uses modified ERC721 (only the steward can transfer it). Forked from openzeppling library.
-- Infura for reading chain state.
+- Uses modified ERC721.
+- The Graph for reading chain state.
 - Blocknative for monitoring transactions.
 - web3modal for connecting to wallets.
   
-### ArtSteward.sol
-
-This smart contract is responsible for managing ownership over the artwork. It takes in a deposit and sets the price for the artwork (by the owner). Over time, it collects patronage towards the artist and forecloses the artwork in case the owner can't pay anymore.
+### Curve.sol
 
 ### Development & Testing
 
 Running Locally:
+
+yarn install
+
+yarn run node
+yarn run init_contracts
+yarn run add_contracts
+yarn run deploy_contracts
+yarn run publish_contracts
+
+The Graph
+In Neolastics Subgraph
+docker-compose up
+yarn run install
+yarn run codegen
+yarn create-local
+yarn deploy-local
+
+Back here:
+yarn run start
 
 In root folder:
 - Install modules:  

@@ -3,7 +3,7 @@ import { notification } from 'antd';
 
 import Notify from 'bnc-notify'
 
-export default function Transactor(provider,gasPrice,etherscan) {
+export default function Transactor(provider,gasPrice,transactionsExecuted,setTransactionsExecuted,etherscan) {
   if(typeof provider != "undefined"){
     return async (tx) => {
       let signer = await provider.getSigner()
@@ -50,17 +50,24 @@ export default function Transactor(provider,gasPrice,etherscan) {
         //if it is a valid Notify.js network, use that, if not, just send a default notification
         if([1,3,4,5,42].indexOf(network.chainId)>=0){
           const { emitter } = notify.hash(result.hash)
-          emitter.on('all', (transaction) => {
+          emitter.on('txConfirmed', (transaction) => {
+            console.log('txConfirmed');
+            setTransactionsExecuted(transactionsExecuted+1); // tells graphql to refresh
             return {
               onclick: () =>
               window.open((etherscan?etherscan:etherscanTxUrl)+transaction.hash),
             }
           })
         }else{
-          notification['info']({
-            message: 'Local Transaction Sent',
-            description: result.hash,
-            placement:"bottomRight"
+          const { emitter } = notify.hash(result.hash);
+          emitter.on('all', (transaction) => {
+            console.log('local tx confirmed');
+            setTransactionsExecuted(transactionsExecuted+1); // tells graphql to refresh
+            notification['info']({
+              message: 'Local Transaction Sent',
+              description: result.hash,
+              placement:"bottomRight"
+            });
           });
         }
 
