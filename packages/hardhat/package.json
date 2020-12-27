@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "@nomiclabs/hardhat-etherscan": "^2.1.0",
     "@truffle/hdwallet-provider": "^1.2.0",
     "chai": "^4.2.0",
     "ethereum-waffle": "^3.2.0",

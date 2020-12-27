@@ -50,11 +50,6 @@ If the address differs, you must copy it from hardhat and put into the
 Back in this repo:   
 ```yarn run start```
 
-### Mainnet
-
-To deploy to a testnet or mainnet, just add or use the existing network in the openzeppelin networks.js. It uses Infura to deploy and thus you also need to export your own Infura ID (like your mnemonic for deployment).  
-  ```export REACT_APP_INFURA_ID="<INFURA_ID_HERE>"```
-
 ### License
 
 Code License:
