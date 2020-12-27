@@ -46,8 +46,6 @@ function GalleryComponent(props) {
     }, []);
 
     if(savedData.collector !== null) {
-        console.log('sg', savedData);
-        console.log(defaultGallery);
         return savedData.collector.neolastics.map(({ id, created}) => (
             <div key={id} style={{textAlign: 'center'}}>
                 <CellsComponent hash={ethers.BigNumber.from(id).toHexString()}/><br />

@@ -29,7 +29,6 @@ function IntroPage(props) {
 
     useEffect(() => {
         if(typeof props.address !== 'undefined') {
-            console.log('setting mint section');
             const newMintHTML = <Button type="primary" onClick={mintNeolastic}>
                 MINT
             </Button>

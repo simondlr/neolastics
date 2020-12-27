@@ -48,7 +48,6 @@ export default function Account(props) {
   }, [props.injectedProvider]);
 
   const pollInjectedProvider = async () => {
-    console.log('polling accounts');
     if(props.injectedProvider){
       let accounts = await props.injectedProvider.listAccounts()
       if(accounts && accounts[0] && accounts[0] != props.account){

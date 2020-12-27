@@ -55,7 +55,6 @@ function App() {
   useEffect(() => {
     async function loadSigners() {
       if(injectedChainId !== null) {
-        console.log('setting signer');
         const signer = await injectedProvider.getSigner();
         const curveSigner = new ethers.Contract(curveAddress, CurveJSON.abi, signer);
         setCurveSigner(curveSigner);

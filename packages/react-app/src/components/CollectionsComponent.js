@@ -37,14 +37,20 @@ function CollectionsComponent(props) {
     useEffect(() => {
         if(savedData !== null) {
             setTimeout(function(){ 
+                console.log('refired query');
                 getCollection();
             }, 2000);
-        } else { getCollection(); }
+        } else { 
+            setTimeout(function(){
+                console.log('custom refire');
+                getCollection();
+            }, 2000);
+            getCollection(); 
+        }
     }, [props.transactionsExecuted]);
 
     useEffect(() => {
         if(!!data) {
-            console.log('wtf', data);
             if(data.curve !== null) { // is only triggered when nothing has happened in the contracts yet
                 if(savedData!==null) {
                     if(data.curve.totalSupply !== savedData.curve.totalSupply) {
@@ -61,21 +67,17 @@ function CollectionsComponent(props) {
         }
     }, [data]);
 
-    // if(!!savedData) {
-       // if(!!savedData.curve) {
-         //   console.log('r', savedData);
-            return (
-                <div>
-                Currently, there are {savedData.curve.totalSupply} Neolastics in circulation. <br />
-                The reserve pool is currently {ethers.utils.formatEther(savedData.curve.reserve)} ETH. <br />
-                Current Minting Cost {ethers.utils.formatEther(savedData.curve.mintPrice)} ETH. <br />
-                Current Burning Reward {ethers.utils.formatEther(savedData.curve.burnPrice)} ETH. <br />
-                Total Ever Minted: {savedData.curve.totalEverMinted}. <br />
-                Total Ever Paid: {ethers.utils.formatEther(savedData.curve.totalEverPaid)} ETH.<br />
-                </div>
-            );
-       // } else { return null; }
-    // } else { return null; }
+
+    return (
+        <div>
+        Currently, there are {savedData.curve.totalSupply} Neolastics in circulation. <br />
+        The reserve pool is currently {ethers.utils.formatEther(savedData.curve.reserve)} ETH. <br />
+        Current Minting Cost {ethers.utils.formatEther(savedData.curve.mintPrice)} ETH. <br />
+        Current Burning Reward {ethers.utils.formatEther(savedData.curve.burnPrice)} ETH. <br />
+        Total Ever Minted: {savedData.curve.totalEverMinted}. <br />
+        Total Ever Paid: {ethers.utils.formatEther(savedData.curve.totalEverPaid)} ETH.<br />
+        </div>
+    );
 }
 
 export default CollectionsComponent 
