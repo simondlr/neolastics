@@ -1,7 +1,7 @@
 const defaultAccounts = require("./scripts/wallet-utils.js");
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-web3");
-require("@nomiclabs/hardhat-etherscan");
+// require("@nomiclabs/hardhat-etherscan");
 
 let infuraID = process.env.REACT_APP_INFURA_ID; 
 

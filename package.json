@@ -19,8 +19,6 @@
     "deploy_contracts_mainnet": "cd packages/hardhat && npx hardhat run --network mainnet scripts/deploy.js",
     "publish_contracts": "cd packages/hardhat && npx run scripts/publish_oz.js",
     "test_contracts": "cd packages/hardhat && npx hardhat test",
-    "verify_CURVE": "cd packages/hardhat && npx hardhat verify --network mainnet 0x174150478891bdD4EAefaB50FB24B9126F289FA6 '0x0CaCC6104D8Cd9d7b2850b4f35c65C1eCDEECe03'",
-    "verify_ERC721": "cd packages/hardhat && npx hardhat verify --network mainnet 0xB2D6fb1Dc231F97F8cC89467B52F7C4F78484044 'Neolastics' 'NLS'",
     "start": "yarn workspace @neolastics/react-app start",
     "compile": "cd packages/hardhat && npx hardhat compile"
   },
