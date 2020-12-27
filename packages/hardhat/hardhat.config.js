@@ -2,7 +2,7 @@ const defaultAccounts = require("./scripts/wallet-utils.js");
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-web3");
 
-let infuraID = process.env.REACT_APP_INFURA_ID; // 4829f63a3e2c4338a03e7ccd8e5212d3
+let infuraID = process.env.REACT_APP_INFURA_ID; 
 
 const deployAccounts = defaultAccounts();
 

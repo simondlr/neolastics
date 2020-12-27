@@ -10,7 +10,7 @@ export default function Transactor(provider,gasPrice,transactionsExecuted,setTra
       const network = await provider.getNetwork()
       console.log("network",network)
       const options = {
-        dappId: "243a9ecd-2c9c-48cb-911a-3521c37bc181",
+        dappId: "c1274f22-b276-48c3-b36d-87f856da5554",
         networkId: network.chainId,
         //darkMode: Boolean, // (default: false)
         transactionHandler: (txInformation)=>{
