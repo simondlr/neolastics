@@ -56,7 +56,7 @@ function IntroPage(props) {
         />
         <br />
         <div style={{textAlign:'center'}}>
-        <a href="https://opensea.io" target="_blank"><Button>View The Entire Collection on OpenSea</Button></a>
+        <a href="https://opensea.io/collection/neolastics" target="_blank"><Button>View The Entire Collection on OpenSea</Button></a>
         </div>
         <hr />        
         {/* MINT SECTION */}

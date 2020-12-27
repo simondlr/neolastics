@@ -35,16 +35,12 @@ function CollectionsComponent(props) {
     const [ getCollection, { loading, error, data }] = useLazyQuery(NEOLASTICS_QUERY, {fetchPolicy: 'network-only'});
 
     useEffect(() => {
-        if(savedData !== null) {
+        if(savedData.curve.totalEverMinted !== '0') {
             setTimeout(function(){ 
                 console.log('refired query');
                 getCollection();
             }, 2000);
         } else { 
-            setTimeout(function(){
-                console.log('custom refire');
-                getCollection();
-            }, 2000);
             getCollection(); 
         }
     }, [props.transactionsExecuted]);
