@@ -78,7 +78,7 @@ function App() {
   // todo: on mainnet, connect to graphprotocol
   const client = new ApolloClient({
       // uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
-      uri: 'http://localhost:8000/subgraphs/name/simondlr/neolastics-subgraph',
+      uri: 'https://api.thegraph.com/subgraphs/name/simondlr/neolastics',
       cache: new InMemoryCache(),
     });
 
