@@ -100,7 +100,7 @@ describe("Neolastics", function() {
   it('neolastics: proper contract created', async () => {
     expect(await neolastics.name()).to.equal("Neolastics");
     expect(await neolastics.symbol()).to.equal("NLS");
-    expect(await neolastics.baseURI()).to.equal("https://neolastics.com/metadata/");
+    expect(await neolastics.baseURI()).to.equal("https://metadata.neolastics.com/.netlify/functions/server/");
     expect(await neolastics.curve()).to.equal(curve.address);
     expect(await neolastics.totalSupply()).to.equal('0');
   });
@@ -121,16 +121,17 @@ describe("Neolastics", function() {
     await expect(neolastics.tokenURI(42)).to.be.revertedWith("ERC721Metadata: URI query for nonexistent token");
 
     // mint
-    const tx = await curve.connect(signers[1]).mint({value: ETH1, gasLimit})
-    console.log('emit', tx);
+    const tx = await curve.connect(signers[1]).mint({gasPrice: '5000000000', value: ETH1, gasLimit})
+    // console.log('emit', tx);
     const gasPrice = tx.gasPrice;
+    console.log('gp', gasPrice.toString());
     const receipt = await tx.wait();
-    console.log('receipt', receipt.events);
+    // console.log('receipt', receipt.events);
     const gasUsed = receipt.gasUsed;
     const txCost = gasPrice.mul(gasUsed);
     const postMintActualBal = await minter.get();
     const postMintCalcBal =  ethers.utils.parseUnits(preMintBal.toString(), 'wei').sub(txCost).sub(initMintPrice);
-    console.log('tx cost in ETH', ethers.utils.formatEther(txCost));
+    console.log('tx cost in ETH at 50 gwei', ethers.utils.formatEther(txCost));
     
     // balance checks for creator
     const calcCreatorBal = initMintPrice.sub(initBurnPrice);
@@ -143,7 +144,7 @@ describe("Neolastics", function() {
     expect(postMintActualBal.toString()).to.equal(postMintCalcBal.toString());
 
     expect(await neolastics.ownerOf(tokenId)).to.equal(accounts[1]);
-    expect(await neolastics.tokenURI(tokenId)).to.equal("https://neolastics.com/metadata/"+tokenId);
+    expect(await neolastics.tokenURI(tokenId)).to.equal("https://metadata.neolastics.com/.netlify/functions/server/"+tokenId);
     expect(await neolastics.totalSupply()).to.equal('1');
     expect(await curve.reserve()).to.equal(ethers.utils.parseEther('0.000995'));
 
@@ -152,7 +153,6 @@ describe("Neolastics", function() {
 
   });
 
-  /*
   // mint 1 neolastic with zero ETH (fail)
   it('neolastics: mint 1 with zero ETH (fail)', async() => {
     await expect(curve.connect(signers[1]).mint({value: 0, gasLimit})).to.be.revertedWith('C: No ETH sent');
@@ -191,7 +191,7 @@ describe("Neolastics", function() {
     const tokenId = await neolastics.tokenOfOwnerByIndex(accounts[1], 0);
 
     expect(await neolastics.ownerOf(tokenId)).to.equal(accounts[1]);
-    expect(await neolastics.tokenURI(tokenId)).to.equal("https://neolastics.com/metadata/"+tokenId);
+    expect(await neolastics.tokenURI(tokenId)).to.equal("https://metadata.neolastics.com/.netlify/functions/server/"+tokenId);
     expect(await neolastics.totalSupply()).to.equal('1');
 
   });
@@ -291,8 +291,6 @@ describe("Neolastics", function() {
     }
 
     const bal = await neolastics.balanceOf(accounts[1]);
-    console.log('bal', bal.toString());
-
     const totalMintTxCost = await getTotalTxCost(mintTxes);
     
     const r = await curve.reserve();
@@ -483,7 +481,7 @@ describe("Neolastics", function() {
 
     expect(bal.toString()).to.equal('1');
     expect(await neolastics.ownerOf(tokenId)).to.equal(accounts[1]);
-    expect(await neolastics.tokenURI(tokenId)).to.equal("https://neolastics.com/metadata/"+tokenId);
+    expect(await neolastics.tokenURI(tokenId)).to.equal("https://metadata.neolastics.com/.netlify/functions/server/"+tokenId);
     expect(await neolastics.totalSupply()).to.equal('1');
     expect(await curve.reserve()).to.equal(ethers.utils.parseEther('0.000995'));
 
@@ -504,14 +502,11 @@ describe("Neolastics", function() {
     const tokenId = await neolastics.tokenOfOwnerByIndex(accounts[1], 0);
     await expect(neolastics.connect(signers[1]).burn(accounts[1], tokenId, {gasLimit})).to.be.revertedWith("NEOLASTICS: Burner is not the curve");
   });
-
-  */
   
   it('neolastics: check svg matching', async() => {
     await curve.connect(signers[1]).mint({value: ETH1, gasLimit});
 
     const tokenId = await neolastics.tokenOfOwnerByIndex(accounts[1], 0);
-    console.log(tokenId._hex);
 
     const jsSVG = generateJSSVGFromHash(tokenId);
 
@@ -526,11 +521,11 @@ describe("Neolastics", function() {
   /* attacks ->
   front-running:
   - As mentioned before. It's possible, but not generally profitable due to cost of minting.
-  - It's unlike ERC20 smart contract, because storage of an NFT costs more. 0.001951376
+  - It's unlike ERC20 smart contract, because storage of an NFT costs more. 0.001951376. At 8 gwei.
 
   // contract driven attacks?
   // blocking transfers?
-  // transfers can be blocked when minting, but this will just cause the contract mint to fail (test this)
+  // transfers can be blocked when minting, but this will just cause the contract mint to fail 
   // transfers can be blocked on burning, but again, this is just a problem for the owner.
 
   // flash minting?
@@ -540,6 +535,16 @@ describe("Neolastics", function() {
   // duplicates?
   // duplicates are possible, but shouldn't be an issue and could perhaps be its own value driver since it would be very rare.
   // a duplicate would occur if the a hash the same 9 bytes of 32.
+  */
+
+  /*NOTE. Dit not test the extremes, because it's practically impossible to hit. */
+  // eg: there's not ETH to hit into supply problems.
+
+  /*
+  Cycling 'attack'.
+  One can create a contract that mints/burns/mints/burns/mints/burns to find a rare one.
+  It is costly however, but it means the cost would only be storage costs + creator fees.
+  At high price levels or interest it might become more profitable to consider these cycling 'attacks'.
   */
 
 });

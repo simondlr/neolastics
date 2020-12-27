@@ -42,10 +42,12 @@ contract Curve {
     /*
     With one mint front-runned, a front-runner will make a loss.
     With linear price increases of 0.001, it's not profitable.
-    BECAUSE it costs 0.001973744 to mint (storage/smart contract costs) + 0.5% loss from creator fee.
+    BECAUSE it costs 0.012 ETH at 50 gwei to mint (storage/smart contract costs) + 0.5% loss from creator fee.
 
     It becomes more profitable to front-run if there are multiple buys that can be spotted
-    from multiple buyers in one block.
+    from multiple buyers in one block. However, depending on gas price, it depends how profitable it is.
+    Because the planned buffer on the front-end is 0.01 ETH, it's not profitable to front-run any normal amounts.
+    Unless, someone creates a specific contract to start bulk minting.
     To curb speculation, users can only mint one per transaction (unless you create a separate contract to do this).
     Thus, ultimately, at this stage, while front-running can be profitable,
     it is not generally feasible at this small scale.
@@ -71,7 +73,7 @@ contract Curve {
         creator.transfer(mintPrice.sub(reserveCut)); // 0.5%
 
         if(msg.value.sub(mintPrice) > 0) {
-            msg.sender.transfer(msg.value.sub(mintPrice)); // excess/padding
+            msg.sender.transfer(msg.value.sub(mintPrice)); // excess/padding/buffer
         }
 
         emit Minted(tokenId, mintPrice, reserve);
@@ -85,7 +87,6 @@ contract Curve {
         // checks if allowed to burn
         neolastics.burn(msg.sender, tokenId);
 
-        // todo: check what happens if people block their own transfers
         reserve = reserve.sub(burnPrice);
         msg.sender.transfer(burnPrice);
 

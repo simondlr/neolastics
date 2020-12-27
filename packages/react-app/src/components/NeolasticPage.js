@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { gql, useLazyQuery } from '@apollo/client';
 import CellsComponent from "./CellsComponent";
 
-import ethers from 'ethers';
+import { ethers } from 'ethers';
 import { Button } from "antd";
 import moment from "moment";
 /*
@@ -70,6 +70,7 @@ function NeolasticPage(props) {
           detailsHTML = <Fragment>
               Owner: <Link to={'/gallery/'+savedData.neolastic.owner.id}>{savedData.neolastic.owner.id}.</Link> <br />
               Created on: {created} <br />
+              Mint Price: {ethers.utils.formatEther(savedData.neolastic.pricePaid)} <br />
             </Fragment>
 
           if(typeof props.address !== 'undefined') {

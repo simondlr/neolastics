@@ -14,8 +14,6 @@ import "./utils/EnumerableSet.sol";
 import "./utils/EnumerableMap.sol";
 import "./utils/Strings.sol";
 
-import "hardhat/console.sol"; // todo: comment out
-
 /**
  * @title ERC721 Non-Fungible Token Standard basic implementation
  * @dev see https://eips.ethereum.org/EIPS/eip-721
@@ -145,7 +143,7 @@ contract ERC721 is ERC165, IERC721, IERC721Metadata, IERC721Enumerable {
         require(msg.sender == curve, "NEOLASTICS: Minter is not the curve");
 
         /*
-        Neolasitc generative art takes first 9 bytes of 32 to calculate colours for the 9 tiles.
+        Neolastic generative art takes first 9 bytes of 32 to calculate colours for the 9 tiles.
         Thus: you *can* get duplicates. But they are rare.
         You can predict totalEverMinted + timestamp to *some* extent
         but hard to do so, unless explicitly manipulated by miners.
@@ -492,18 +490,6 @@ contract ERC721 is ERC165, IERC721, IERC721Metadata, IERC721Enumerable {
 
         emit Transfer(from, to, tokenId);
     }
-
-    /**
-     * @dev Sets `_tokenURI` as the tokenURI of `tokenId`.
-     *
-     * Requirements:
-     *
-     * - `tokenId` must exist.
-     */
-    /*function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal virtual {
-        require(_exists(tokenId), "ERC721Metadata: URI set of nonexistent token");
-        _tokenURIs[tokenId] = _tokenURI;
-    }*/ // todo: not actually used
 
     /**
      * @dev Internal function to set the base URI for all token IDs. It is

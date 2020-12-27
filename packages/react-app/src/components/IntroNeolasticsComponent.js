@@ -4,7 +4,7 @@ import { Button } from "antd";
 import CellsComponent from "./CellsComponent";
 import { gql, useLazyQuery } from '@apollo/client';
 
-import ethers from 'ethers';
+import { ethers } from 'ethers';
 import moment from 'moment';
 
 /*
@@ -30,10 +30,10 @@ function IntroNeolasticsComponent(props) {
     useEffect(() => {
         if(!!data) {
             if(savedData!==null) {
-                console.log(data);
+                if(typeof savedData.neolastics[0] !== 'undefined') {
                 if (savedData.neolastics[0].id !== data.neolastics[0].id) {
                     setSavedData(data);
-                }
+                }}
             } else { setSavedData(data); }
         }
     }, [data]);

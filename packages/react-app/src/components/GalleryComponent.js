@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "antd";
 import CellsComponent from "./CellsComponent";
 import { gql, useLazyQuery } from '@apollo/client';
 
-import ethers from 'ethers';
+import { ethers } from 'ethers';
 import moment from 'moment';
 
 /*
@@ -25,8 +25,14 @@ function GalleryComponent(props) {
         }
     }
     `    
-    
-    const [savedData, setSavedData] = useState(null);
+    const defaultGallery = {
+        collector: {
+            id: '0',
+            neolastics: []
+        }
+    }
+
+    const [savedData, setSavedData] = useState(defaultGallery);
     const [getNeolastics, { loading, error, data }] = useLazyQuery(NEOLASTICS_QUERY, { variables: { ownerId }, fetchPolicy: 'network-only'});
 
     useEffect(() => {
@@ -39,7 +45,9 @@ function GalleryComponent(props) {
         getNeolastics();
     }, []);
 
-    if(!!savedData) {
+    if(savedData.collector !== null) {
+        console.log('sg', savedData);
+        console.log(defaultGallery);
         return savedData.collector.neolastics.map(({ id, created}) => (
             <div key={id} style={{textAlign: 'center'}}>
                 <CellsComponent hash={ethers.BigNumber.from(id).toHexString()}/><br />
@@ -50,7 +58,7 @@ function GalleryComponent(props) {
                 <br />
             </div>
         ));
-    } else { return null; }
+   } else { return (<Fragment>There's nothing here.</Fragment>); }
 }
 
 export default GalleryComponent 

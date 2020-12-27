@@ -15,14 +15,12 @@
     "react-app:test": "yarn workspace @neolastics/react-app test",
     "build": "yarn workspace @neolastics/react-app build --max-old-space-size=12288",
     "node": "cd packages/hardhat && npx hardhat node",
-    "init_contracts": "cd packages/hardhat && npx oz init",
-    "add_contracts": "cd packages/hardhat && npx oz add ERC721 && npx oz add Curve",
-    "deploy_contracts": "cd packages/hardhat && npx oz deploy",
+    "deploy_contracts_local": "cd packages/hardhat && npx hardhat run --network localhost scripts/deploy.js",
+    "deploy_contracts_mainnet": "cd packages/hardhat && npx hardhat run --network mainnet scripts/deploy.js",
     "publish_contracts": "cd packages/hardhat && npx run scripts/publish_oz.js",
     "test_contracts": "cd packages/hardhat && npx hardhat test",
     "start": "yarn workspace @neolastics/react-app start",
-    "compile": "cd packages/hardhat && npx hardhat compile",
-    "call_test": "cd packages/hardhat && npx oz call --to 0xab387f2826759BbE08eA102d0C067365187648C7 --method 'neolastics'"
+    "compile": "cd packages/hardhat && npx hardhat compile"
   },
   "devDependencies": {
     "hardhat": "^2.0.3",

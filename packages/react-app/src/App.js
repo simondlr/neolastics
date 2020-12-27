@@ -17,7 +17,6 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
 // Artifacts
 import CurveJSON from "./contracts/Curve.json";
-console.log('nnp', NeolasticPage);
 
 function App() {
   /* Universal State*/
@@ -30,7 +29,7 @@ function App() {
   const [transactionsExecuted, setTransactionsExecuted] = useState(0);
 
   // set it manually
-  let curveAddress = CurveJSON.networks['31337'].address;
+  let curveAddress = "0x174150478891bdD4EAefaB50FB24B9126F289FA6";
   // artist: 0x0CaCC6104D8Cd9d7b2850b4f35c65C1eCDEECe03
 
   const [curveSigner, setCurveSigner] = useState(null);
@@ -46,9 +45,8 @@ function App() {
       if(!injectedChainId) {
           if(injectedProvider && injectedProvider.network) {
               const id = await injectedProvider.network.chainId;
-              console.log('ca', curveAddress);
               setInjectedChainId(id);
-              setHardcodedChainId(id); // todo -> must manually set to mainnet in prod
+              setHardcodedChainId(1); // todo -> must manually set to mainnet in prod
           }
       }
   } 

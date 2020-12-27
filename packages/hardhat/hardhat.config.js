@@ -1,7 +1,10 @@
 const defaultAccounts = require("./scripts/wallet-utils.js");
-// const { usePlugin } = require('hardhat/config');
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-web3");
+
+let infuraID = process.env.REACT_APP_INFURA_ID; // 4829f63a3e2c4338a03e7ccd8e5212d3
+
+const deployAccounts = defaultAccounts();
 
 module.exports = {
   defaultNetwork: 'localhost',
@@ -12,9 +15,24 @@ module.exports = {
     hardhat: {
       accounts: defaultAccounts(),
       gas: 9500000,
+    },
+    mainnet: {
+      url: `https://mainnet.infura.io/v3/${infuraID}`,
+      accounts: [deployAccounts[0].privateKey],
+      gasPrice: 80e9
     }
   },
   solc: {
-    version : "0.6.6",
+    version : "0.7.6",
   }
 }
+
+/*
+    mainnet: {
+      provider: () => new HDWalletProvider(
+        mnemonic, `https://mainnet.infura.io/v3/${infuraID}`, 3
+      ),
+      networkId: 1,
+      gasPrice: 50e9,
+    }
+    */

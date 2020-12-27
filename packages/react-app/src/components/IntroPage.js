@@ -3,7 +3,7 @@ import { Button } from "antd";
 import IntroNeolasticsComponent from "./IntroNeolasticsComponent";
 import CollectionsComponent from "./CollectionsComponent";
 
-import ethers from 'ethers';
+import { ethers } from 'ethers';
 
 function IntroPage(props) {
 
@@ -68,9 +68,10 @@ function IntroPage(props) {
         <br />
         Current Cost: {ethers.utils.formatEther(globalMintPrice)} ETH. <br />
         Current Buffer: 0.01 ETH. <br />
+        NOTE: This code is *unaudited*. Caution is advised unless you want to take the risk. <br />
         <br />
         <h3>Buffer?</h3>
-        It currently costs: {ethers.utils.formatEther(globalMintPrice)} ETH (excluding Ethereum gas fees) to mint a new psuedo-randomly on-chain generated Neolastic.<br /> 
+        Above and beyond Ethereum computation and storage costs (~0.0125 ETH at 50gwei), it currently costs: {ethers.utils.formatEther(globalMintPrice)} ETH (excluding Ethereum gas fees) to mint a new psuedo-randomly on-chain generated Neolastic.<br /> 
         <br />
         However, a buffer of 0.01 ETH is added to the cost ensure that the transaction succeeds (because only one neolastic per price point can be minted).
         If there's high demand (more than one mint transaction per block), a part of the buffer will be used to pay the mint cost at the time of confirmation.
@@ -95,12 +96,13 @@ function IntroPage(props) {
         {/* TECHNICALS SECTION */}
         <div className="section">
         <h2>Technicals</h2>
+        - Code is available here: <a href="https://github.com/simondlr/neolastics">https://github.com/simondlr/neolastics</a>.<br />
         - The price curve is linear, starting at 0.001 ETH for a Neolastic piece. Each new piece increases the price by 0.001 ETH. <br />
         - 99.5% of the price is kept in the bonding curve reserve. 0.5% goes to the creator. <br />
         - There exists 6 colours, with white, black, red, blue, and yellow being equally likely (~20%). <br />
         - Green is rare (~1/256). <br />
         - The colours are chosen from the first 9 bytes of a psuedo-randomly generated 32 byte hash. <br />
-        - A maximum of 10,077,696 (6^9) potential combinations can exist. <br />
+        - A maximum of 10,077,696 (6^9) potential combinations can thus exist. <br />
         - Duplicates are possible with different hashes. <br />
         - Every neolastic is stored as its hash on Ethereum and can be auto-generated directly from the smart contract into an SVG blob. Thus, if this website goes away, you would always be able to own and view your neolastic. <br />
         - It uses the ERC721 NFT standard, and uses the 'image_data' field from OpenSea to enable the metadata to be more readily viewed by others (vs directly pulling it from Ethereum). <br />
