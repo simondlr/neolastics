@@ -5,7 +5,7 @@ import CollectionsComponent from "./CollectionsComponent";
 
 import { ethers } from 'ethers';
 
-import meta from "meta.png";
+import meta from "./meta.png";
 
 function IntroPage(props) {
 
