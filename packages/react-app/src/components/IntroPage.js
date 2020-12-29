@@ -5,6 +5,8 @@ import CollectionsComponent from "./CollectionsComponent";
 
 import { ethers } from 'ethers';
 
+import meta from "meta.png";
+
 function IntroPage(props) {
 
     const [buyPrice, setBuyPrice] = useState('0');
@@ -132,6 +134,7 @@ function IntroPage(props) {
         See my other art projects here: <a href="https://blog.simondlr.com/art">https://blog.simondlr.com/art</a>.<br />
         Swing me a follow on Twitter! <a href="https://twitter.com/simondlr">@simondlr</a>.<br />
         <br />
+        <img src={meta} />
         </div>
         </div>
     );
