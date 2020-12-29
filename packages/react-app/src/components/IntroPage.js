@@ -70,7 +70,7 @@ function IntroPage(props) {
         NOTE: This code is *unaudited*. Caution is advised unless you want to take the risk. <br />
         <br />
         <h3>Buffer?</h3>
-        Above and beyond Ethereum computation and storage costs (~0.0125 ETH at 50gwei), it currently costs: {ethers.utils.formatEther(globalMintPrice)} ETH (excluding Ethereum gas fees) to mint a new psuedo-randomly on-chain generated Neolastic.<br /> 
+        Above and beyond Ethereum computation and storage costs (~0.0125 ETH at 50gwei), it currently costs: {ethers.utils.formatEther(globalMintPrice)} ETH to mint a new psuedo-randomly, on-chain generated Neolastic.<br /> 
         <br />
         However, a buffer of 0.01 ETH is added to the cost ensure that the transaction succeeds (because only one neolastic per price point can be minted).
         If there's high demand (more than one mint transaction per block), a part of the buffer will be used to pay the mint cost at the time of confirmation.
