@@ -28,8 +28,11 @@ function App() {
   const [hardcodedChainId, setHardcodedChainId] = useState(null); // set it manually
   const [transactionsExecuted, setTransactionsExecuted] = useState(0);
 
-  // set it manually
+  // mainnet
   let curveAddress = "0x174150478891bdD4EAefaB50FB24B9126F289FA6";
+  // local curve address if deployed on clean yarn run node
+  // let curveAddress = "0xab387f2826759bbe08ea102d0c067365187648c7";
+
   // artist: 0x0CaCC6104D8Cd9d7b2850b4f35c65C1eCDEECe03
 
   const [curveSigner, setCurveSigner] = useState(null);
@@ -46,7 +49,11 @@ function App() {
           if(injectedProvider && injectedProvider.network) {
               const id = await injectedProvider.network.chainId;
               setInjectedChainId(id);
-              setHardcodedChainId(1); // todo -> must manually set to mainnet in prod
+
+              // comment out line for local or prod
+              setHardcodedChainId(1); // mainnet
+              // setHardcodedChainId(id); // local (uses injectedProvider)
+              
           }
       }
   } 
@@ -74,10 +81,12 @@ function App() {
     tx(curveSigner.functions.burn(id));
   }    
 
-  // todo: on mainnet, connect to graphprotocol
+  // mainnet
+  const graphURI = 'https://api.thegraph.com/subgraphs/name/simondlr/neolastics';
+  // const graphURI = 'http://localhost:8000/subgraphs/name/simondlr/neolastics-subgraph';
+
   const client = new ApolloClient({
-      // uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
-      uri: 'https://api.thegraph.com/subgraphs/name/simondlr/neolastics',
+      uri: graphURI,
       cache: new InMemoryCache(),
     });
 

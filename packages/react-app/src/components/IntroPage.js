@@ -116,7 +116,9 @@ function IntroPage(props) {
         In an attempt to compress these ideas into a simple MVP, <a href="https://blog.simondlr.com/maximising-blockchain-collectible-economies">I formulated a new version that directly tied newly minted pieces directly onto a bonding curve</a>. 
         Since then, NFTs, Generative Art, and Bonding Curves have increased in popularity and it's time push ahead in these ideas. Thus, Neolastics seek to create a simple art project whereupon generative art is backed by a bonding curve economy. 
         If successful, this could continue the aim of building a fully autonomous artist: <a href="https://abraham.ai/">eventually leading to one that even has its own 'mind'.</a> 
-         I'm a huge fan of Mondrian's Neo-Plasticism art and it served as inspiration for the kind of generative art I wish to see. Hat tip to <a href="https://clovers.network/">Clovers.Network</a> for pushing the boundaries of a generative art + bonding curve economy.
+         I'm a huge fan of Mondrian's Neo-Plasticism art and it served as inspiration for the kind of generative art I wish to see. Hat tip to <a href="https://clovers.network/">Clovers.Network</a> for pushing the boundaries of a generative art + bonding curve economy.<br />
+        <br />
+        If you own a Neolastic, you can join the Discord to chat with other collectors: <a href="https://discord.gg/M5b2MrK2FG">https://discord.gg/M5b2MrK2FG</a>. Verified by Collab.land.
         </div>
         <hr />
         {/* ARTIST SECTION */}
