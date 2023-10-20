@@ -1,18 +1,26 @@
+body h1, h2 {
+  font-family: SFNewRepublic;
+}
+
 .App {
+  background: white;
   text-align: left;
-  max-width: 500px;
-  margin: 0px auto auto;
+  max-width: 600px;
+  padding: 10px;
+  margin: 10px auto auto;
 }
 
 .section {
   text-align: left;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0px auto auto;
 }
 
 .account {
+  padding: 10px;
+  background: white;
   text-align: right;
-  max-width: 500px;
+  max-width: 800px;
   margin: 20px auto 4px;
 }
 

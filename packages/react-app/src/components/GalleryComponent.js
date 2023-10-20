@@ -47,7 +47,7 @@ function GalleryComponent(props) {
 
     if(savedData.collector !== null) {
         return savedData.collector.neolastics.map(({ id, created}) => (
-            <div key={id} style={{textAlign: 'center'}}>
+            <div key={id} style={{textAlign: 'left'}}>
                 <CellsComponent hash={ethers.BigNumber.from(id).toHexString()}/><br />
                 Owner: {ownerId}. <br />
                 Created: {moment.unix(created).format()}   <br />
