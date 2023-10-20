@@ -6,9 +6,46 @@ import CellsComponent from "./CellsComponent";
 import { ethers } from 'ethers';
 import { Button } from "antd";
 import moment from "moment";
+
+import { useAccount, useNetwork, useWaitForTransaction, useContractWrite  } from 'wagmi';
+
+import CurveJSON from "../contracts/Curve.json";
 /*
 One piece + actions on one page
 */
+function BurnNeolasticComponent(props) {
+  console.log(props);
+
+  const { data, write } = useContractWrite({
+    address: props.curveAddress,
+    abi: CurveJSON.abi,
+    functionName: 'burn',
+    args: [props.tokenId],
+  });
+ 
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+    onSuccess(data) {
+      console.log('tx succeeded, firing graphql refresh');
+      props.refreshGraphQL(); 
+    }
+  });
+
+  return (
+      <div>
+        <Fragment>
+          <Button type="primary" onClick={write}>
+            BURN
+          </Button> 
+          {isLoading ? ' Transaction Pending...': ''}
+          {isSuccess ? ' Completed!' : ''}
+          <br />
+          <br />
+          You will receive {ethers.utils.formatEther(props.burnPrice)} ETH from the reserve. <br />
+        </Fragment>
+      </div>
+  )
+}
 
 function NeolasticPage(props) {
     let { id } = useParams();
@@ -29,23 +66,21 @@ function NeolasticPage(props) {
     }
     `
 
-    const [actionSection, setActionSection] = useState("");
     const [detailsSection, setDetailsSection] = useState("");
 
     const [savedData, setSavedData] = useState(null);
 
     const [ getNeolastic, { loading, error, data }] = useLazyQuery(NEOLASTIC_QUERY, { variables: { id }, fetchPolicy: 'network-only'});
 
+    // manually refresh thegraph data if needed
+    function refresh() {
+      console.log('firing reload');
+      getNeolastic();
+    }
+
     const wrongNetworkHTML = <Fragment>You are on the wrong network to interact with the Neolastic. Please switch to the correct network.</Fragment>;
 
-    const offlineHTML = <Fragment>
-    [In order to interact with this neolastic, you need to  have a web3/Ethereum-enabled browser and connect it (see top right of the page). Please download
-      the <a href="https://metamask.io">MetaMask Chrome extension</a> or open in an Ethereum-compatible browser.]
-    </Fragment>;
-
-    function burnNeolastic() {
-      props.burnNeolastic(id);
-    }
+    // note, there's no possibility to be "offline" this page because you have to be connected anyway to determine whether you can burn the piece or not
 
     useEffect(() => {
       if(!!data) {
@@ -56,8 +91,9 @@ function NeolasticPage(props) {
 
     }, [data]);
 
+    // note:
+    // this by only populating details after saveddata is kind of better than how it's done on the intro page.
     useEffect(() => {
-
       if(savedData !== null) {      
         // set details
         let detailsHTML = <Fragment>
@@ -72,51 +108,38 @@ function NeolasticPage(props) {
               Created on: {created} <br />
               Mint Price: {ethers.utils.formatEther(savedData.neolastic.pricePaid)} <br />
             </Fragment>
-
-          if(typeof props.address !== 'undefined') {
-            if(props.address.toLowerCase() === savedData.neolastic.owner.id) {
-              actionsHTML = <Fragment>
-              <Button type="primary" onClick={burnNeolastic}>
-                Burn
-              </Button> <br />
-              You will receive {ethers.utils.formatEther(savedData.curve.burnPrice)} ETH from the reserve. <br />
-              </Fragment>
-            }
-          }
         }
       
         setDetailsSection(detailsHTML);
-        setActionSection(actionsHTML);
       }
-    }, [savedData, props.address, props.curveSigner]); 
-    // address only comes in injectedId is online
-    // update on signer is necessary if you log back in such that contract functions update their internal state variables
+    }, [savedData]); 
 
-    // provider logic
     useEffect(() => {
-      if(props.injectedChainId !== props.hardcodedChainId && props.injectedChainId !== null) {
-        setActionSection(wrongNetworkHTML);
-      } else if(props.injectedChainId === props.hardcodedChainId) {
-        // todo: remove statement
-      } else if(props.injectedChainId == null) {
-        setActionSection(offlineHTML);
+      getNeolastic(); 
+    }, []);
+
+    const { chain, chains } = useNetwork();
+    const { address, isConnected } = useAccount();
+
+    let burnPrice = '0';
+    let showBurn = false;
+
+    if (savedData !== null && address !== undefined) {
+      burnPrice = savedData.curve.burnPrice;
+      if(address.toLowerCase() === savedData.neolastic.owner.id) {
+        showBurn = true;
       }
-    }, [props.hardcodedChainId]); // TODO: re-add signer coming in
-
-    // update component if a user tx occurred
-    useEffect(() => {
-      if(savedData !== null) {
-          setTimeout(function(){ 
-              getNeolastic();
-          }, 2000);
-      } else { getNeolastic(); }
-    }, [props.transactionsExecuted]);
+    }
 
     return (
-        <div className="App" style={{textAlign:'center'}}> 
+        <div className="App" style={{textAlign:'left'}}>
           <CellsComponent hash={ethers.BigNumber.from(id).toHexString()} />
+          <br />
           {detailsSection}
-          {actionSection}
+          <br />
+          {isConnected ? chain.id === props.chainID ? showBurn ? <Fragment>
+            <BurnNeolasticComponent tokenId={id} curveAddress={props.curveAddress} burnPrice={burnPrice} refreshGraphQL={refresh} />
+          </Fragment> : '' : wrongNetworkHTML : '' }
         </div>
     );
 }

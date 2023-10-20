@@ -5,12 +5,11 @@ function GalleryPage(props) {
 
     return (
         <div className="App" style={{textAlign:"justify"}}> 
-        <h2 style={{textAlign:'center'}}>Gallery</h2>
+        <h1 style={{textAlign:'left'}}>Gallery</h1>
         <GalleryComponent
         />
         <br />
-        <hr />        
-
+        <br />
         </div>
     );
 }
