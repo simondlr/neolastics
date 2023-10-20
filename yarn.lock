@@ -8419,9 +8419,9 @@ ejs@^3.1.6:
     jake "^10.8.5"
 
 electron-to-chromium@^1.3.47, electron-to-chromium@^1.4.535:
-  version "1.4.561"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.561.tgz#816f31d9ae01fe58abbf469fca7e125b16befd85"
-  integrity sha512-eS5t4ulWOBfVHdq9SW2dxEaFarj1lPjvJ8PaYMOjY0DecBaj/t4ARziL2IPpDr4atyWwjLFGQ2vo/VCgQFezVQ==
+  version "1.4.562"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.562.tgz#7502b8cafbb7cc59701b17e744fa6ef5f7fe2b96"
+  integrity sha512-kMGVZLP65O2/oH7zzaoIA5hcr4/xPYO6Sa83FrIpWcd7YPPtSlxqwxTd8lJIwKxaiXM6FGsYK4ukyJ40XkW7jg==
 
 elliptic@6.5.4, elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.3, elliptic@^6.5.4:
   version "6.5.4"
