@@ -1,5 +1,5 @@
 module.exports = {
   babel: {
-    plugins: [],
+    plugins: [["@babel/plugin-proposal-nullish-coalescing-operator"]],
   },
 };
