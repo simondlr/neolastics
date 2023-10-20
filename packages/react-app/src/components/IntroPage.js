@@ -12,6 +12,8 @@ import { parseEther, formatEther } from 'viem';
 
 import CurveJSON from "../contracts/Curve.json";
 
+import meta from "./meta.png";
+
 function MintNeolasticComponent(props) {
     console.log(props);
   
