@@ -4,7 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "@truffle/hdwallet-provider": "^1.2.0",
     "chai": "^4.2.0",
     "ethereum-waffle": "^3.2.0",
     "ethers": "^5.0.19",
