@@ -1,0 +1,71 @@
+Arguments: 
+  /Users/simondlr2/.nvm/versions/node/v16.20.2/bin/node /usr/local/Cellar/yarn/1.22.19/libexec/bin/yarn.js install
+
+PATH: 
+  /Users/simondlr2/.nvm/versions/node/v16.20.2/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/Users/simondlr2/.nvm/versions/node/v16.13.2/bin:/Users/simondlr2/.nvm/versions/node/v16.13.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/opt/X11/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/Users/simondlr2/.nvm/versions/node/v16.13.2/bin:/Users/simondlr2/go/bin:/Users/simondlr2/go/bin:/usr/local/go/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.20.2
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Invariant Violation: expected workspace package to exist for "@scure/bip32"
+      at invariant (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:2318:15)
+      at _loop2 (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:91040:9)
+      at PackageHoister.init (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:91099:19)
+      at PackageLinker.getFlatHoistedTree (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:48549:20)
+      at PackageLinker.<anonymous> (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:48560:27)
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:310:30)
+      at /usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:328:14
+      at new Promise (<anonymous>)
+      at new F (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:5305:28)
+
+npm manifest: 
+  {
+    "name": "@neolastics/monorepo",
+    "version": "1.0.0",
+    "keywords": [
+      "ethereum",
+      "react",
+      "workspaces",
+      "yarn"
+    ],
+    "private": true,
+    "scripts": {
+      "react-app:build": "yarn workspace @neolastics/react-app build --max-old-space-size=12288",
+      "react-app:eject": "yarn workspace @neolastics/react-app eject",
+      "react-app:start": "yarn workspace @neolastics/react-app start",
+      "react-app:test": "yarn workspace @neolastics/react-app test",
+      "build": "yarn workspace @neolastics/react-app build --max-old-space-size=12288",
+      "node": "cd packages/hardhat && npx hardhat node",
+      "deploy_contracts_local": "cd packages/hardhat && npx hardhat run --network localhost scripts/deploy.js",
+      "deploy_contracts_mainnet": "cd packages/hardhat && npx hardhat run --network mainnet scripts/deploy.js",
+      "publish_contracts": "cd packages/hardhat && npx run scripts/publish_oz.js",
+      "test_contracts": "cd packages/hardhat && npx hardhat test",
+      "start": "yarn workspace @neolastics/react-app start",
+      "compile": "cd packages/hardhat && npx hardhat compile"
+    },
+    "devDependencies": {
+      "hardhat": "^2.0.3",
+      "@nomiclabs/hardhat-ethers": "^2.0.0",
+      "@nomiclabs/hardhat-waffle": "^2.0.0",
+      "@nomiclabs/hardhat-web3": "^2.0.0"
+    },
+    "workspaces": {
+      "packages": [
+        "packages/*"
+      ]
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
