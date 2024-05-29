@@ -38,7 +38,8 @@ function App() {
   // artist: 0x0CaCC6104D8Cd9d7b2850b4f35c65C1eCDEECe03
 
   // mainnet
-  const graphURI = 'https://api.thegraph.com/subgraphs/name/simondlr/neolastics';
+  const GRAPH_API_KEY = process.env.REACT_APP_GRAPH_API_KEY;
+  const graphURI = 'https://gateway-arbitrum.network.thegraph.com/api/'+GRAPH_API_KEY+'/subgraphs/id/99P9iFUCyaiJouugpEjW6LozFrt8kDAcpZPqt7RFzhb7';
 
   const client = new ApolloClient({
       uri: graphURI,
