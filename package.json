@@ -1,26 +1,24 @@
 {
   "name": "@neolastics/monorepo",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "keywords": [
     "ethereum",
     "react",
+    "nextjs",
     "workspaces",
     "yarn"
   ],
   "private": true,
   "scripts": {
-    "react-app:build": "yarn workspace @neolastics/react-app build --max-old-space-size=12288",
-    "react-app:eject": "yarn workspace @neolastics/react-app eject",
-    "react-app:start": "yarn workspace @neolastics/react-app start",
-    "react-app:test": "yarn workspace @neolastics/react-app test",
-    "build": "yarn workspace @neolastics/react-app build --max-old-space-size=12288",
+    "dev": "yarn workspace @neolastics/nextjs dev",
+    "start": "yarn workspace @neolastics/nextjs start",
+    "build": "yarn workspace @neolastics/nextjs build",
+    "lint": "yarn workspace @neolastics/nextjs lint",
     "node": "cd packages/hardhat && npx hardhat node",
-    "deploy_contracts_local": "cd packages/hardhat && npx hardhat run --network localhost scripts/deploy.js",
-    "deploy_contracts_mainnet": "cd packages/hardhat && npx hardhat run --network mainnet scripts/deploy.js",
-    "publish_contracts": "cd packages/hardhat && npx run scripts/publish_oz.js",
+    "compile": "cd packages/hardhat && npx hardhat compile",
     "test_contracts": "cd packages/hardhat && npx hardhat test",
-    "start": "yarn workspace @neolastics/react-app start",
-    "compile": "cd packages/hardhat && npx hardhat compile"
+    "deploy_contracts_local": "cd packages/hardhat && npx hardhat run --network localhost scripts/deploy.js",
+    "deploy_contracts_mainnet": "cd packages/hardhat && npx hardhat run --network mainnet scripts/deploy.js"
   },
   "devDependencies": {
     "hardhat": "^2.0.3",
@@ -32,5 +30,9 @@
     "packages": [
       "packages/*"
     ]
+  },
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=18.18.0"
   }
 }

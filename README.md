@@ -1,57 +1,47 @@
+# Neolastics
 
-## Neolastics
+Liquid on-chain generative neo-plastic art. Generative NFTs backed by a bonding curve economy, deployed on Ethereum mainnet since December 2020.
 
-Liquid on-chain generative neoplastic art. Generative NFTs backed by a bonding curve economy.
+https://neolastics.com
 
-https://neolastics.com.
+## Stack
 
-### Technicals
+- **`packages/nextjs`** — Next.js 14 (App Router), TypeScript, Tailwind, wagmi 2 + viem 2 + RainbowKit 2, Apollo Client. SVG art is rendered by deploying the actual ERC721 contract bytecode in-browser via `@ethereumjs/evm` — no mainnet RPC needed for display.
+- **`packages/hardhat`** — Hardhat workspace housing the deployed Solidity contracts (immutable, untouched). Used today only for local-fork deploys and the legacy test suite.
+- Subgraph lives in [simondlr/neolastics-subgraph](https://github.com/simondlr/neolastics-subgraph). The frontend reads it via The Graph's hosted gateway.
 
-- This repo is forked from https://github.com/austintgriffith/scaffold-eth & extensively modified.
-- hardhat + waffle + openzeppelin for testing + smart contract development.
-- ethers.js.
-- Custom deploy function.
-- Uses modified ERC721.
-- The Graph for reading chain state.
-- Blocknative for monitoring transactions.
-- web3modal for connecting to wallets.
-- [The metadata API](https://github.com/simondlr/neolastics_metadata) is hosted separately through Netlify Functions. 
-  
-### Development & Testing
+## Quick start
 
-Running Locally:
+```sh
+yarn install
 
-### 1. Start Node + Deploy Contracts 
-```yarn install```  
-```yarn run node```   
-It will use the default mnemonic in ```./scripts/wallet-utils.js``` and start a local EVM.   
-If you need a custom mnemonic, just:   
-```export MNEMONIC="<insert_your_own_mnemonic_here>```   
-```yarn run deploy_contracts_local```    
-Save the curve address manually and copy-paste it to curveAddress in react-app/src/App.js.   
-```yarn run publish_contracts```  
-This copies the build files to the react-app.
+# Frontend env
+cp packages/nextjs/.env.example packages/nextjs/.env.local
+# Then fill in:
+#   NEXT_PUBLIC_GRAPH_API_KEY            (https://thegraph.com/studio)
+#   NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID (https://cloud.walletconnect.com)
 
-### 2. Start a local Graph Node.
-Follow [these instructions](https://thegraph.com/docs/quick-start#local-development) to start a local Graph Node. Note: It's not necessary to the ganache steps as hardhat is the chosen EVM. Only, the parts about the Graph Node.  
-```docker-compose up```  
-When you cycle it (in between running the EVM or not), you might have to delete the data. NOT necessary for initial setup.  
-```rm -rf data``` 
+yarn dev          # next dev on http://localhost:3000
+yarn build        # production build
+yarn lint         # next lint
+```
 
-### 3. Clone and Deploy Neolastics Subgraph
-In a new folder, git clone [neolastics-subgraph](https://github.com/simondlr/neolastics-subgraph).    
-```yarn run install```  
-If the address differs, you must copy it from hardhat and put into the   
-```yarn run codegen```  
-```yarn run create-local```  
-```yarn run deploy-local```  
+## Hardhat (contracts)
 
-### 4. Start Server
-Back in this repo:   
-```yarn run start```
+Contracts are deployed and immutable. You only need this if you want to run the existing test suite or deploy a fresh copy locally.
 
-### License
+```sh
+yarn compile                  # hardhat compile
+yarn test_contracts           # uses --network hardhat in-memory (no node needed)
+yarn node                     # start a local hardhat node on :8545
+yarn deploy_contracts_local   # deploy to localhost
+yarn deploy_contracts_mainnet # deploy to mainnet (mnemonic required)
+```
 
-Code License:
-MIT
+## Deploy
 
+Netlify (`netlify.toml` at repo root): Node 20, `yarn build`, `@netlify/plugin-nextjs`. Set `NEXT_PUBLIC_GRAPH_API_KEY` and `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` in the Netlify environment.
+
+## License
+
+MIT.
