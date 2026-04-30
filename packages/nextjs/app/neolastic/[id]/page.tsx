@@ -4,9 +4,22 @@ import { shortenTokenId } from "@/lib/format";
 
 export function generateMetadata({ params }: { params: { id: string } }): Metadata {
   const short = shortenTokenId(params.id);
+  const title = `Neolastic ${short} — Neolastics`;
+  const description = `Neolastic ${short} — a pseudo-random Mondrian-inspired piece minted from an on-chain bonding curve.`;
   return {
-    title: `Neolastic ${short} — Neolastics`,
-    description: `Neolastic ${short} — a pseudo-random Mondrian-inspired piece minted from an on-chain bonding curve.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      // images: provided by app/neolastic/[id]/opengraph-image.tsx (auto-injected)
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 

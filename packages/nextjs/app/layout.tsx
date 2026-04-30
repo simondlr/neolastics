@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Providers } from "./providers";
+import { ProvidersWrapper } from "@/components/ProvidersWrapper";
 import { Header } from "@/components/Header";
 
 const neolasticsFont = localFont({
@@ -39,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={neolasticsFont.variable}>
       <body className="font-sans">
-        <Providers>
+        <ProvidersWrapper>
           <Header />
           <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
             {children}
@@ -71,7 +71,7 @@ export default function RootLayout({
               </a>
             </div>
           </footer>
-        </Providers>
+        </ProvidersWrapper>
       </body>
     </html>
   );

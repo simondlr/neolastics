@@ -4,9 +4,21 @@ import { shortenAddress } from "@/lib/format";
 
 export function generateMetadata({ params }: { params: { ownerId: string } }): Metadata {
   const short = shortenAddress(params.ownerId);
+  const title = `Gallery ${short} — Neolastics`;
+  const description = `Neolastics owned by ${short}.`;
   return {
-    title: `Gallery ${short} — Neolastics`,
-    description: `Neolastics owned by ${short}.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 
