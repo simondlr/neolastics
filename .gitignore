@@ -1,6 +1,10 @@
 node_modules
 .openzeppelin
 .DS_Store
+**/.DS_Store
+
+# Hardhat (artifacts stay tracked: they are the source of the frontend's embedded ERC721 bytecode)
+packages/hardhat/cache
 
 # Next.js
 packages/nextjs/.next

@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { ProvidersWrapper } from "@/components/ProvidersWrapper";
+import { Providers } from "./providers";
 import { Header } from "@/components/Header";
+import { ExternalLink } from "@/components/ExternalLink";
 
-const neolasticsFont = localFont({
+const display = localFont({
   src: "../public/fonts/SFNewRepublic.ttf",
-  variable: "--font-neolastics",
+  variable: "--font-display",
   display: "swap",
 });
+const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 const description =
   "Liquid on-chain generative neo-plastic art. A bonding-curve-backed NFT collection minting and burning Mondrian-inspired SVG cubes on Ethereum.";
@@ -37,41 +41,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={neolasticsFont.variable}>
-      <body className="font-sans">
-        <ProvidersWrapper>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+      <body>
+        <Providers>
           <Header />
-          <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
+          <main className="max-w-5xl mx-auto px-4 sm:px-8 py-10 sm:py-16">
             {children}
           </main>
-          <footer className="border-t mt-16">
-            <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-              <span>Neolastics</span>
-              <span className="hidden sm:inline" aria-hidden="true">
-                &middot;
-              </span>
-              <a
-                href="https://github.com/simondlr/neolastics"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary underline decoration-primary/30 underline-offset-4 hover:decoration-primary transition-colors"
-              >
-                GitHub
-              </a>
-              <span className="hidden sm:inline" aria-hidden="true">
-                &middot;
-              </span>
-              <a
-                href="https://opensea.io/collection/neolastics"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary underline decoration-primary/30 underline-offset-4 hover:decoration-primary transition-colors"
-              >
-                OpenSea
-              </a>
+          <footer className="border-t">
+            <div className="max-w-5xl mx-auto px-4 sm:px-8 py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-muted-foreground">
+              <p className="font-display text-base tracking-wide text-foreground">NEOLASTICS</p>
+              <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2">
+                <ExternalLink href="https://github.com/simondlr/neolastics">GitHub</ExternalLink>
+                <ExternalLink href="https://opensea.io/collection/neolastics">OpenSea</ExternalLink>
+                <ExternalLink href="https://home.simondlr.com/art">Simon de la Rouviere</ExternalLink>
+              </nav>
             </div>
           </footer>
-        </ProvidersWrapper>
+        </Providers>
       </body>
     </html>
   );

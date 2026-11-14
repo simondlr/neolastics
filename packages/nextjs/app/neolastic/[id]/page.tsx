@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { NeolasticView } from "./NeolasticView";
-import { shortenTokenId } from "@/lib/format";
+import { shortenTokenId } from "@/lib/utils";
 
 export function generateMetadata({ params }: { params: { id: string } }): Metadata {
   const short = shortenTokenId(params.id);

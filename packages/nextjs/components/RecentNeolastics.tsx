@@ -1,8 +1,4 @@
-import Link from "next/link";
-import { Cells } from "./Cells";
-import { Button } from "@/components/ui/button";
-import { Address } from "@/components/Address";
-import { formatUnixDate } from "@/lib/time";
+import { NeolasticCard, NeolasticGrid } from "./NeolasticCard";
 import type { NeolasticListItem } from "@/lib/graphql";
 
 export function RecentNeolastics({ neolastics }: { neolastics: NeolasticListItem[] }) {
@@ -11,22 +7,10 @@ export function RecentNeolastics({ neolastics }: { neolastics: NeolasticListItem
   }
 
   return (
-    <div className="space-y-8">
-      {neolastics.map(({ id, created, owner }) => (
-        <div key={id} className="text-left space-y-2">
-          <Cells tokenId={id} />
-          <p className="text-sm">
-            Owner: <Address address={owner.id} linkToGallery />
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Created: {formatUnixDate(created)}
-          </p>
-          <br />
-          <Link href={`/neolastic/${id}`}>
-            <Button>VIEW + INTERACT WITH PIECE</Button>
-          </Link>
-        </div>
+    <NeolasticGrid>
+      {neolastics.map(({ id, created, pricePaid, owner }) => (
+        <NeolasticCard key={id} id={id} created={created} pricePaid={pricePaid} ownerId={owner.id} />
       ))}
-    </div>
+    </NeolasticGrid>
   );
 }

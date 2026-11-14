@@ -1,12 +1,29 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { generateSvg } from "@/lib/neolasticEvm";
-import { shortenTokenId } from "@/lib/format";
+import { shortenTokenId } from "@/lib/utils";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const contentType = "image/png";
 export const size = { width: 1200, height: 630 };
 export const alt = "Neolastic";
+
+const WALL = "#f9f8f5"; // --background
+const INK = "#1c1a17"; // --foreground
+const MUTED = "#5e5a55"; // --muted-foreground
+
+// SFNewRepublic, as used for headings on the site. Falls back to the default font if it can't be read.
+async function loadDisplayFont(): Promise<ArrayBuffer | null> {
+  try {
+    const buf = await readFile(join(process.cwd(), "public/fonts/SFNewRepublic.ttf"));
+    return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer;
+  } catch (err) {
+    console.error("[opengraph-image] font load failed:", err);
+    return null;
+  }
+}
 
 const FALLBACK_FILLS: string[] = Array(9).fill("#000000");
 
@@ -37,6 +54,7 @@ export default async function OpengraphImage({ params }: { params: { id: string 
     fills = FALLBACK_FILLS;
   }
 
+  const font = await loadDisplayFont();
   const short = shortenTokenId(params.id);
   const tileSize = 160;
   const stroke = 3;
@@ -47,7 +65,7 @@ export default async function OpengraphImage({ params }: { params: { id: string 
         style={{
           width: "100%",
           height: "100%",
-          background: "#ffffff",
+          background: WALL,
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
@@ -84,17 +102,20 @@ export default async function OpengraphImage({ params }: { params: { id: string 
           style={{
             display: "flex",
             flexDirection: "column",
-            color: "#000",
+            color: INK,
           }}
         >
-          <div style={{ fontSize: 72, fontWeight: 700, lineHeight: 1 }}>Neolastics</div>
-          <div style={{ fontSize: 30, color: "#666", marginTop: 16 }}>{short}</div>
-          <div style={{ fontSize: 24, color: "#666", marginTop: 32, maxWidth: 460, lineHeight: 1.3 }}>
+          <div style={{ fontSize: 72, lineHeight: 1, fontFamily: font ? "SFNewRepublic" : undefined }}>NEOLASTICS</div>
+          <div style={{ fontSize: 30, color: MUTED, marginTop: 16 }}>{short}</div>
+          <div style={{ fontSize: 24, color: MUTED, marginTop: 32, maxWidth: 460, lineHeight: 1.3 }}>
             On-chain generative neo-plastic art
           </div>
         </div>
       </div>
     ),
-    { ...size },
+    {
+      ...size,
+      fonts: font ? [{ name: "SFNewRepublic", data: font, style: "normal" }] : undefined,
+    },
   );
 }
