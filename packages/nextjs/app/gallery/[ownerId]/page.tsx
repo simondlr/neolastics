@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { GalleryView } from "./GalleryView";
-import { shortenAddress } from "@/lib/format";
+import { truncateAddress } from "@/lib/utils";
 
 export function generateMetadata({ params }: { params: { ownerId: string } }): Metadata {
-  const short = shortenAddress(params.ownerId);
+  const short = truncateAddress(params.ownerId);
   const title = `Gallery ${short} — Neolastics`;
   const description = `Neolastics owned by ${short}.`;
   return {

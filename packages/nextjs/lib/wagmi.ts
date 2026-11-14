@@ -1,17 +1,55 @@
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+import {
+  coinbaseWallet,
+  frameWallet,
+  injectedWallet,
+  metaMaskWallet,
+  rainbowWallet,
+  safeWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+import { fallback, http } from "wagmi";
 import { mainnet, hardhat } from "wagmi/chains";
 
-const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
-if (!projectId) {
-  throw new Error(
-    "Missing NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID. Get one at https://cloud.walletconnect.com and add it to .env.local — see .env.example.",
-  );
-}
+const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "";
+
+// Mainnet RPC: WalletConnect's RPC (keyed by the project ID) first, then a public RPC.
+// viem's default (eth.merkle.io) rejects browser requests with CORS errors.
+// Only used for transaction confirmations; everything else is read from the subgraph.
+const PUBLIC_MAINNET_RPC = "https://ethereum-rpc.publicnode.com";
+const mainnetTransport = projectId
+  ? fallback([http(`https://rpc.walletconnect.org/v1/?chainId=eip155:${mainnet.id}&projectId=${projectId}`), http(PUBLIC_MAINNET_RPC)])
+  : http(PUBLIC_MAINNET_RPC);
+
+// RainbowKit wallets that fall back to WalletConnect (MetaMask and Rainbow on mobile, WalletConnect itself)
+// throw at config time without a project ID, so without one only wallets that never need it are listed.
+const wallets = projectId
+  ? [
+      {
+        groupName: "Popular",
+        wallets: [metaMaskWallet, frameWallet, rainbowWallet, coinbaseWallet, walletConnectWallet],
+      },
+      {
+        groupName: "Other",
+        wallets: [injectedWallet, safeWallet],
+      },
+    ]
+  : [
+      {
+        groupName: "Wallets",
+        wallets: [injectedWallet, frameWallet, coinbaseWallet, safeWallet],
+      },
+    ];
 
 export const config = getDefaultConfig({
   appName: "Neolastics",
   projectId,
-  chains: [mainnet, hardhat],
+  wallets,
+  chains: process.env.NODE_ENV === "development" ? [mainnet, hardhat] : [mainnet],
+  transports: {
+    [mainnet.id]: mainnetTransport,
+    [hardhat.id]: http(),
+  },
   ssr: true,
 });
 

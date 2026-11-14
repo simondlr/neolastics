@@ -2,54 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Gallery palette: warm off-white wall and near-black ink, with Mondrian primaries as the only colour.
+  Blue for links and focus, red for destructive actions, yellow only as decoration (never text).
+  Light only. Contrast on background: muted-foreground ≈ 5.9:1, link (Mondrian blue) ≈ 7.6:1 (WCAG AA).
+*/
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 100%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 100%;
+    --background: 40 23% 97%;
+    --foreground: 30 10% 10%;
+    --card: 40 30% 99%;
+    --card-foreground: 30 10% 10%;
+    --popover: 40 30% 99%;
+    --popover-foreground: 30 10% 10%;
+    --primary: 30 10% 10%;
+    --primary-foreground: 40 23% 97%;
+    --secondary: 38 16% 91%;
+    --secondary-foreground: 30 10% 10%;
+    --muted: 38 16% 91%;
+    --muted-foreground: 30 6% 36%;
+    --accent: 38 16% 91%;
+    --accent-foreground: 30 10% 10%;
+    --link: 217 63% 36%; /* Mondrian blue #225095 */
+    --destructive: 0 100% 43%; /* Mondrian red #dd0100 */
+    --destructive-foreground: 40 23% 97%;
+    --success: 145 45% 28%;
+    --success-foreground: 40 23% 97%;
+    --notice: 48 90% 90%;
+    --notice-foreground: 30 60% 22%;
+    --border: 35 12% 84%;
+    --input: 35 12% 78%;
+    --ring: 217 63% 36%;
+    --radius: 0.25rem;
   }
 }
 
@@ -57,8 +41,12 @@
   * {
     @apply border-border;
   }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
   h1,
   h2,
@@ -66,12 +54,40 @@
   h4,
   h5,
   h6 {
-    @apply font-neolastics;
+    @apply font-display tracking-tight;
+  }
+  ::selection {
+    background: hsl(var(--link) / 0.15);
   }
 }
 
+@layer components {
+  /* An artwork hung on the wall: thin frame shadow, no rounding. */
+  .artwork-frame {
+    @apply block w-full h-auto bg-card;
+    box-shadow:
+      0 1px 2px hsl(30 10% 10% / 0.06),
+      0 8px 28px -6px hsl(30 10% 10% / 0.18);
+  }
+
+  /* Small-caps label used on wall labels and section eyebrows. */
+  .eyebrow {
+    @apply text-[0.7rem] font-medium uppercase tracking-[0.14em] text-muted-foreground;
+  }
+
+  .gallery-link {
+    @apply text-link underline decoration-link/30 underline-offset-4 transition-colors hover:decoration-link;
+  }
+
+  /* Long-form editorial text. */
+  .prose-gallery {
+    @apply max-w-prose space-y-4 text-[1.0625rem] leading-relaxed text-foreground/85;
+  }
+}
+
+/* The contract's SVG has fixed width/height attributes; let it fill its frame. */
 .cells svg {
   display: block;
-  max-width: 100%;
+  width: 100%;
   height: auto;
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { truncateAddress } from "@/lib/utils";
 
 const CopyIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -32,7 +33,7 @@ export function Address({
   linkToGallery?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
-  const truncated = `${address.slice(0, 6)}…${address.slice(-4)}`;
+  const truncated = truncateAddress(address);
 
   const onCopy = async () => {
     try {
@@ -45,11 +46,11 @@ export function Address({
   };
 
   return (
-    <span className="inline-flex items-center gap-1.5 font-mono text-sm align-middle">
+    <span className="inline-flex items-center gap-1.5 font-mono text-xs align-middle">
       {linkToGallery ? (
         <Link
           href={`/gallery/${address}`}
-          className="text-primary underline decoration-primary/30 underline-offset-4 hover:decoration-primary"
+          className="gallery-link"
           title={address}
         >
           {truncated}
@@ -62,7 +63,7 @@ export function Address({
         onClick={onCopy}
         title={copied ? "Copied" : "Copy address"}
         aria-label={copied ? "Address copied" : "Copy address"}
-        className="text-muted-foreground hover:text-foreground transition-colors"
+        className="rounded-sm text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </button>
@@ -72,7 +73,7 @@ export function Address({
         rel="noopener noreferrer"
         title="View on Etherscan"
         aria-label="View on Etherscan"
-        className="text-muted-foreground hover:text-foreground transition-colors"
+        className="rounded-sm text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <ExternalLinkIcon />
       </a>

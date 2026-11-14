@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import { formatEther } from "viem";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { TransactionError } from "@/components/TransactionError";
+import { TxStatus } from "@/components/TransactionStatus";
+import { useCurveWrite } from "@/hooks/useCurveWrite";
 import { curveAbi } from "@/contracts/curveAbi";
 import { curveAddress } from "@/lib/wagmi";
+import { formatEth } from "@/lib/utils";
 
 export function BurnForm({
   tokenId,
@@ -17,12 +17,8 @@ export function BurnForm({
   burnPrice: bigint;
   onSuccess?: () => void;
 }) {
-  const { data: hash, writeContract, isPending, error: writeError } = useWriteContract();
-  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
-
-  useEffect(() => {
-    if (isSuccess && onSuccess) onSuccess();
-  }, [isSuccess, onSuccess]);
+  const [confirming, setConfirming] = useState(false);
+  const { writeContract, reset, hash, status, isBusy, error } = useCurveWrite(onSuccess);
 
   const handleBurn = () => {
     writeContract({
@@ -33,16 +29,48 @@ export function BurnForm({
     });
   };
 
+  if (status === "success") {
+    return (
+      <TxStatus
+        status={status}
+        hash={hash}
+        error={error}
+        successMessage={`Burned. ${formatEth(burnPrice)} ETH was returned to your wallet from the reserve.`}
+      />
+    );
+  }
+
   return (
-    <div className="space-y-2">
-      <Button variant="destructive" onClick={handleBurn} disabled={isPending || isConfirming}>
-        {isPending || isConfirming ? "Processing..." : "BURN"}
-      </Button>
+    <div className="space-y-3">
       <p className="text-sm text-muted-foreground">
-        You will receive {formatEther(burnPrice)} ETH from the reserve.
+        Burning destroys this piece forever and returns {formatEth(burnPrice)} ETH to you from the reserve.
       </p>
-      {isSuccess && <p className="text-sm text-success">Burn complete.</p>}
-      <TransactionError error={writeError} />
+      {!confirming ? (
+        <Button variant="outline" onClick={() => setConfirming(true)}>
+          Burn this piece
+        </Button>
+      ) : (
+        <div className="flex flex-wrap gap-2">
+          <Button variant="destructive" onClick={handleBurn} disabled={isBusy}>
+            {status === "signing"
+              ? "Confirm in wallet…"
+              : status === "pending"
+                ? "Burning…"
+                : `Burn for ${formatEth(burnPrice)} ETH`}
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setConfirming(false);
+              reset();
+            }}
+            disabled={isBusy}
+          >
+            Cancel
+          </Button>
+        </div>
+      )}
+      <TxStatus status={status} hash={hash} error={error} />
     </div>
   );
 }

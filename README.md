@@ -19,7 +19,8 @@ yarn install
 cp packages/nextjs/.env.example packages/nextjs/.env.local
 # Then fill in:
 #   NEXT_PUBLIC_GRAPH_API_KEY            (https://thegraph.com/studio)
-#   NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID (https://cloud.walletconnect.com)
+#   NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID (recommended, https://cloud.walletconnect.com;
+#                                          without it mobile QR connections are off and a public RPC is used)
 
 yarn dev          # next dev on http://localhost:3000
 yarn build        # production build
@@ -35,12 +36,12 @@ yarn compile                  # hardhat compile
 yarn test_contracts           # uses --network hardhat in-memory (no node needed)
 yarn node                     # start a local hardhat node on :8545
 yarn deploy_contracts_local   # deploy to localhost
-yarn deploy_contracts_mainnet # deploy to mainnet (mnemonic required)
+yarn deploy_contracts_mainnet # deploy to mainnet (refuses to run unless MNEMONIC is set)
 ```
 
 ## Deploy
 
-Netlify (`netlify.toml` at repo root): Node 20, `yarn build`, `@netlify/plugin-nextjs`. Set `NEXT_PUBLIC_GRAPH_API_KEY` and `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` in the Netlify environment.
+Netlify (`netlify.toml` at repo root): Node 20, `yarn build`, `@netlify/plugin-nextjs`. Set `NEXT_PUBLIC_GRAPH_API_KEY` (required) and `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` (recommended) in the Netlify environment.
 
 ## License
 

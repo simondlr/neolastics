@@ -44,6 +44,11 @@ const config: Config = {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
         },
+        link: "hsl(var(--link))",
+        notice: {
+          DEFAULT: "hsl(var(--notice))",
+          foreground: "hsl(var(--notice-foreground))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -55,7 +60,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        neolastics: ["var(--font-neolastics)", "sans-serif"],
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       borderRadius: {
         lg: "var(--radius)",

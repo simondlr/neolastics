@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const NEOLASTICS_QUERY = gql`
   query Neolastics {
-    neolastics(orderBy: created, orderDirection: desc, first: 5) {
+    neolastics(orderBy: created, orderDirection: desc, first: 7) {
       id
       created
       pricePaid
